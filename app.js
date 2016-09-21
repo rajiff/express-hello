@@ -4,6 +4,8 @@ var express = require('express');
 const bodyParser = require('body-parser');
 
 var empRoutes = require('./appserver/employee/employeeRouter');
+var empProjectRoutes = require('./appserver/empProjects/empProjectRouter');
+var empTravelsRoutes = require('./appserver/empTravels/empTravelsRouter');
 
 var app = express();
 
@@ -24,6 +26,12 @@ app.get("/", function(req, res) {
   });
 });
 
-app.use("/employee", empRoutes);
 
+//Example of mounting multiple middleware (non-isolated) at the same mount point
+app.use("/employee", empRoutes, empProjectRoutes, empTravelsRoutes);
+
+/*app.use("/employee", empRoutes);
+app.use('/employee/:empid/projects', empProjectRoutes);
+app.use('/employee/:empid/travels', empTravelsRoutes);
+*/
 module.exports = app;
